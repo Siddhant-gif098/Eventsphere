@@ -1,31 +1,33 @@
 ```javascript
 /* =========================================================
-   EVENTSPHERE - SIMPLE JAVASCRIPT
-   Matches the current index.html
+   EVENTSPHERE
+   FINAL JAVASCRIPT
 ========================================================= */
 
-
-/* =========================================================
-   GLOBAL VARIABLES
-========================================================= */
-
-let isRegisterMode = false;
+let registerMode = false;
 let selectedEventName = "";
 
 
 /* =========================================================
-   PAGE LOAD
+   START WEBSITE
 ========================================================= */
 
-document.addEventListener("DOMContentLoaded", function () {
+window.addEventListener("load", function () {
 
-    // Check if user is already logged in
+    const loginPage = document.getElementById("loginPage");
+    const mainWebsite = document.getElementById("mainWebsite");
+
+    if (!loginPage || !mainWebsite) {
+        alert("Error: Login page or main website section not found.");
+        return;
+    }
+
     const savedUser = localStorage.getItem("eventSphereUser");
 
     if (savedUser) {
         showMainWebsite();
     } else {
-        showLoginPage();
+        showLogin();
     }
 
 });
@@ -35,17 +37,24 @@ document.addEventListener("DOMContentLoaded", function () {
    LOGIN PAGE
 ========================================================= */
 
-function showLoginPage() {
+function showLogin() {
 
-    document.getElementById("loginPage").style.display = "flex";
-    document.getElementById("mainWebsite").classList.add("hidden");
+    registerMode = false;
 
-    isRegisterMode = false;
+    const loginPage = document.getElementById("loginPage");
+    const mainWebsite = document.getElementById("mainWebsite");
 
-    document.getElementById("formTitle").textContent = "Welcome Back";
+    loginPage.style.display = "flex";
+    mainWebsite.classList.add("hidden");
+
+    document.getElementById("formTitle").textContent =
+        "Welcome Back";
 
     document.getElementById("formDescription").textContent =
         "Login to continue to EventSphere";
+
+    document.getElementById("username").value = "";
+    document.getElementById("password").value = "";
 
     document.getElementById("username").placeholder =
         "Enter your name";
@@ -57,12 +66,12 @@ function showLoginPage() {
         "Login";
 
     document.querySelector(".switch-text").innerHTML =
-        `Don't have an account?
-        <button onclick="showRegister()" class="link-button">
-            Register
-        </button>`;
+        'Don\'t have an account? ' +
+        '<button onclick="showRegister()" class="link-button">' +
+        'Register</button>';
 
     document.getElementById("message").textContent = "";
+
 }
 
 
@@ -72,13 +81,16 @@ function showLoginPage() {
 
 function showRegister() {
 
-    isRegisterMode = true;
+    registerMode = true;
 
     document.getElementById("formTitle").textContent =
         "Create Account";
 
     document.getElementById("formDescription").textContent =
         "Create your EventSphere account";
+
+    document.getElementById("username").value = "";
+    document.getElementById("password").value = "";
 
     document.getElementById("username").placeholder =
         "Create your name";
@@ -90,45 +102,12 @@ function showRegister() {
         "Register";
 
     document.querySelector(".switch-text").innerHTML =
-        `Already have an account?
-        <button onclick="showLogin()" class="link-button">
-            Login
-        </button>`;
+        'Already have an account? ' +
+        '<button onclick="showLogin()" class="link-button">' +
+        'Login</button>';
 
     document.getElementById("message").textContent = "";
-}
 
-
-/* =========================================================
-   SWITCH TO LOGIN
-========================================================= */
-
-function showLogin() {
-
-    isRegisterMode = false;
-
-    document.getElementById("formTitle").textContent =
-        "Welcome Back";
-
-    document.getElementById("formDescription").textContent =
-        "Login to continue to EventSphere";
-
-    document.getElementById("username").placeholder =
-        "Enter your name";
-
-    document.getElementById("password").placeholder =
-        "Enter password";
-
-    document.querySelector(".main-button").textContent =
-        "Login";
-
-    document.querySelector(".switch-text").innerHTML =
-        `Don't have an account?
-        <button onclick="showRegister()" class="link-button">
-            Register
-        </button>`;
-
-    document.getElementById("message").textContent = "";
 }
 
 
@@ -138,26 +117,35 @@ function showLogin() {
 
 function loginUser() {
 
-    const username =
-        document.getElementById("username").value.trim();
+    const usernameElement =
+        document.getElementById("username");
 
-    const password =
-        document.getElementById("password").value.trim();
+    const passwordElement =
+        document.getElementById("password");
 
     const message =
         document.getElementById("message");
 
+    if (!usernameElement || !passwordElement || !message) {
+        alert("JavaScript error: Login fields not found.");
+        return;
+    }
 
-    /* -------------------------
-       EMPTY FIELD CHECK
-    ------------------------- */
+    const username =
+        usernameElement.value.trim();
+
+    const password =
+        passwordElement.value.trim();
+
+
+    /* EMPTY CHECK */
 
     if (username === "" || password === "") {
 
         message.textContent =
             "Please enter name and password.";
 
-        message.style.color = "#ff7777";
+        message.style.color = "#ff5555";
 
         return;
     }
@@ -167,7 +155,7 @@ function loginUser() {
        REGISTER
     ===================================================== */
 
-    if (isRegisterMode) {
+    if (registerMode === true) {
 
         const user = {
             name: username,
@@ -182,7 +170,7 @@ function loginUser() {
         message.textContent =
             "Account created successfully!";
 
-        message.style.color = "#77d69b";
+        message.style.color = "#55dd88";
 
 
         setTimeout(function () {
@@ -208,14 +196,29 @@ function loginUser() {
         message.textContent =
             "No account found. Please register first.";
 
-        message.style.color = "#ff7777";
+        message.style.color = "#ff5555";
 
         return;
     }
 
 
-    const user =
-        JSON.parse(savedUser);
+    let user;
+
+    try {
+
+        user = JSON.parse(savedUser);
+
+    } catch (error) {
+
+        localStorage.removeItem("eventSphereUser");
+
+        message.textContent =
+            "Account data was damaged. Please register again.";
+
+        message.style.color = "#ff5555";
+
+        return;
+    }
 
 
     if (
@@ -226,7 +229,7 @@ function loginUser() {
         message.textContent =
             "Login successful!";
 
-        message.style.color = "#77d69b";
+        message.style.color = "#55dd88";
 
 
         setTimeout(function () {
@@ -240,25 +243,37 @@ function loginUser() {
         message.textContent =
             "Incorrect name or password.";
 
-        message.style.color = "#ff7777";
-
+        message.style.color = "#ff5555";
     }
 
 }
 
 
 /* =========================================================
-   SHOW MAIN WEBSITE
+   OPEN MAIN WEBSITE
 ========================================================= */
 
 function showMainWebsite() {
 
-    document.getElementById("loginPage").style.display =
-        "none";
+    const loginPage =
+        document.getElementById("loginPage");
 
-    document.getElementById("mainWebsite").classList.remove(
-        "hidden"
-    );
+    const mainWebsite =
+        document.getElementById("mainWebsite");
+
+
+    if (!loginPage || !mainWebsite) {
+
+        alert("Error opening EventSphere website.");
+
+        return;
+    }
+
+
+    loginPage.style.display = "none";
+
+    mainWebsite.classList.remove("hidden");
+
 
     window.scrollTo({
         top: 0,
@@ -277,54 +292,36 @@ function selectEvent(eventName) {
     selectedEventName = eventName;
 
 
-    /* Change selected event name */
-
     const selectedEvent =
         document.getElementById("selectedEvent");
 
     if (selectedEvent) {
-
-        selectedEvent.textContent =
-            eventName;
-
+        selectedEvent.textContent = eventName;
     }
 
-
-    /* Clear previous amount */
 
     const amount =
         document.getElementById("amount");
 
     if (amount) {
-
         amount.value = "";
-
     }
 
-
-    /* Clear previous message */
 
     const bookingMessage =
         document.getElementById("bookingMessage");
 
     if (bookingMessage) {
-
         bookingMessage.textContent = "";
-
     }
 
 
-    /* =====================================================
-       OPEN BOOKING SECTION
-    ===================================================== */
-
-    const bookingSection =
+    const booking =
         document.getElementById("booking");
 
+    if (booking) {
 
-    if (bookingSection) {
-
-        bookingSection.scrollIntoView({
+        booking.scrollIntoView({
             behavior: "smooth",
             block: "start"
         });
@@ -347,43 +344,55 @@ function confirmBooking() {
         document.getElementById("bookingMessage");
 
 
-    /* Check event */
-
-    if (selectedEventName === "") {
+    if (!selectedEventName) {
 
         bookingMessage.textContent =
             "Please select an event first.";
 
-        bookingMessage.style.color = "#ff7777";
+        bookingMessage.style.color = "#ff5555";
 
         return;
-
     }
 
-
-    /* Get amount */
 
     const amount =
         Number(amountInput.value);
 
-
-    /* Check amount */
 
     if (!amount || amount < 500) {
 
         bookingMessage.textContent =
             "Please enter a valid amount of at least ₹500.";
 
-        bookingMessage.style.color = "#ff7777";
+        bookingMessage.style.color = "#ff5555";
 
         return;
-
     }
 
 
-    /* =====================================================
-       CREATE BOOKING
-    ===================================================== */
+    const savedUser =
+        localStorage.getItem("eventSphereUser");
+
+    let userName = "Guest";
+
+
+    if (savedUser) {
+
+        try {
+
+            const user =
+                JSON.parse(savedUser);
+
+            userName = user.name;
+
+        } catch (error) {
+
+            userName = "Guest";
+
+        }
+
+    }
+
 
     const booking = {
 
@@ -397,23 +406,29 @@ function confirmBooking() {
         amount:
             amount,
 
-        date:
-            new Date().toLocaleDateString("en-IN"),
-
         user:
-            getCurrentUser()
+            userName,
+
+        date:
+            new Date().toLocaleDateString("en-IN")
 
     };
 
 
-    /* =====================================================
-       SAVE BOOKING
-    ===================================================== */
+    let bookings = [];
 
-    let bookings =
-        JSON.parse(
-            localStorage.getItem("eventSphereBookings")
-        ) || [];
+    try {
+
+        bookings =
+            JSON.parse(
+                localStorage.getItem("eventSphereBookings")
+            ) || [];
+
+    } catch (error) {
+
+        bookings = [];
+
+    }
 
 
     bookings.push(booking);
@@ -425,58 +440,20 @@ function confirmBooking() {
     );
 
 
-    /* =====================================================
-       SUCCESS MESSAGE
-    ===================================================== */
-
     bookingMessage.innerHTML =
-        `
-        <strong>Booking Request Submitted! 🎉</strong><br>
-        Event: ${selectedEventName}<br>
-        Budget: ₹${amount.toLocaleString("en-IN")}<br>
-        Booking ID: ${booking.id}
-        `;
+        "<strong>Booking Request Submitted! 🎉</strong><br>" +
+        "Event: " + selectedEventName + "<br>" +
+        "Budget: ₹" +
+        amount.toLocaleString("en-IN") +
+        "<br>" +
+        "Booking ID: " +
+        booking.id;
 
-    bookingMessage.style.color = "#77d69b";
 
+    bookingMessage.style.color = "#55dd88";
 
-    /* Clear amount */
 
     amountInput.value = "";
-
-
-    /* Scroll to booking message */
-
-    bookingMessage.scrollIntoView({
-        behavior: "smooth",
-        block: "center"
-    });
-
-}
-
-
-/* =========================================================
-   GET CURRENT USER
-========================================================= */
-
-function getCurrentUser() {
-
-    const savedUser =
-        localStorage.getItem("eventSphereUser");
-
-
-    if (!savedUser) {
-
-        return "Guest";
-
-    }
-
-
-    const user =
-        JSON.parse(savedUser);
-
-
-    return user.name;
 
 }
 
@@ -491,58 +468,35 @@ function logoutUser() {
 
     selectedEventName = "";
 
-    document.getElementById("mainWebsite")
-        .classList.add("hidden");
-
-    document.getElementById("loginPage")
-        .style.display = "flex";
-
-
-    /* Reset login page */
-
     showLogin();
-
-
-    /* Clear fields */
-
-    document.getElementById("username").value = "";
-
-    document.getElementById("password").value = "";
-
-    document.getElementById("message").textContent = "";
-
-
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
 
 }
 
 
 /* =========================================================
-   PREVENT ENTER KEY FROM CAUSING PAGE PROBLEMS
+   ENTER KEY SUPPORT
 ========================================================= */
 
 document.addEventListener("keydown", function (event) {
 
-    if (event.key === "Enter") {
+    if (event.key !== "Enter") {
+        return;
+    }
 
-        const activeElement =
-            document.activeElement;
+
+    const active =
+        document.activeElement;
 
 
-        if (
-            activeElement &&
-            (
-                activeElement.id === "username" ||
-                activeElement.id === "password"
-            )
-        ) {
+    if (
+        active &&
+        (
+            active.id === "username" ||
+            active.id === "password"
+        )
+    ) {
 
-            loginUser();
-
-        }
+        loginUser();
 
     }
 
