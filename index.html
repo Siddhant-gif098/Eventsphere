@@ -1,0 +1,706 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EventSphere - Event Management</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<!-- ================= LOGIN PAGE ================= -->
+
+<section id="loginPage" class="login-page">
+
+    <div class="login-left">
+        <div class="logo">✦ Event<span>Sphere</span></div>
+
+        <h1>
+            Make every<br>
+            <span>moment</span> special.
+        </h1>
+
+        <p>
+            Plan beautiful weddings, birthdays, corporate
+            events and celebrations with EventSphere.
+        </p>
+
+        <div class="login-points">
+            <p>✓ Professional event planning</p>
+            <p>✓ Events for every budget</p>
+            <p>✓ Personalized experiences</p>
+        </div>
+    </div>
+
+
+    <div class="auth-box">
+
+        <div class="tabs">
+            <button id="loginTab" class="active" onclick="showLogin()">Login</button>
+            <button id="registerTab" onclick="showRegister()">Register</button>
+        </div>
+
+
+        <!-- LOGIN -->
+
+        <div id="loginForm">
+
+            <h2>Welcome Back</h2>
+            <p class="small-text">Login to continue with EventSphere.</p>
+
+            <label>Email or Mobile</label>
+            <input id="loginId" type="text" placeholder="Enter email or mobile">
+
+            <label>Password</label>
+            <input id="loginPass" type="password" placeholder="Enter password">
+
+            <button class="main-btn" onclick="login()">Login →</button>
+
+            <div class="or">OR</div>
+
+            <button class="google-btn" onclick="googleLogin()">
+                <b>G</b> Continue with Google
+            </button>
+
+            <p class="bottom-text">
+                Don't have an account?
+                <button onclick="showRegister()">Create Account</button>
+            </p>
+
+        </div>
+
+
+        <!-- REGISTER -->
+
+        <div id="registerForm" class="hide">
+
+            <h2>Create Account</h2>
+            <p class="small-text">Start planning your perfect event.</p>
+
+            <label>Full Name</label>
+            <input id="regName" type="text" placeholder="Your full name">
+
+            <label>Mobile Number</label>
+            <input id="regMobile" type="tel" placeholder="+91 XXXXX XXXXX">
+
+            <label>Email</label>
+            <input id="regEmail" type="email" placeholder="you@gmail.com">
+
+            <label>Password</label>
+            <input id="regPass" type="password" placeholder="Minimum 6 characters">
+
+            <label class="check">
+                <input id="terms" type="checkbox">
+                I agree to the terms and privacy policy.
+            </label>
+
+            <button class="main-btn" onclick="register()">Create Account →</button>
+
+            <p class="bottom-text">
+                Already have an account?
+                <button onclick="showLogin()">Login</button>
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= MAIN WEBSITE ================= -->
+
+<div id="website" class="hide">
+
+    <!-- NAVBAR -->
+
+    <header>
+
+        <div class="nav-logo" onclick="goHome()">
+            ✦ Event<span>Sphere</span>
+        </div>
+
+        <nav>
+            <button onclick="goHome()">Home</button>
+            <button onclick="showEvents()">Events</button>
+            <button onclick="showBooking()">Book Event</button>
+            <button onclick="showAbout()">About</button>
+        </nav>
+
+        <div class="nav-right">
+
+            <button class="bell" onclick="message('No new notifications.')">
+                ♢
+            </button>
+
+            <button class="menu-button" onclick="toggleMenu()">
+                ☰
+            </button>
+
+        </div>
+
+
+        <!-- THREE DOT MENU -->
+
+        <div id="menu" class="menu">
+
+            <div class="menu-user">
+                <div id="avatar">E</div>
+
+                <div>
+                    <strong id="userName">Guest</strong>
+                    <small id="userEmail">Welcome</small>
+                </div>
+            </div>
+
+            <button onclick="account()">♙ My Account</button>
+            <button onclick="myBookings()">▣ My Bookings</button>
+            <button onclick="settings()">⚙ Settings</button>
+            <button onclick="message('Contact: hello@eventsphere.com')">? Help & Support</button>
+
+            <hr>
+
+            <button class="logout" onclick="logout()">↪ Logout</button>
+
+        </div>
+
+    </header>
+
+
+    <!-- ================= HOME ================= -->
+
+    <section id="home" class="home">
+
+        <div class="hero">
+
+            <small>PREMIUM EVENT MANAGEMENT</small>
+
+            <h1>
+                Your occasion.<br>
+                <i>Our expertise.</i>
+            </h1>
+
+            <p>
+                From intimate celebrations to grand occasions,
+                EventSphere creates unforgettable experiences
+                designed around you.
+            </p>
+
+            <div class="hero-buttons">
+
+                <button class="main-btn" onclick="showBooking()">
+                    Book Your Event →
+                </button>
+
+                <button class="outline-btn" onclick="showEvents()">
+                    Explore Events
+                </button>
+
+            </div>
+
+            <div class="stats">
+                <div><b>500+</b><span>Events</span></div>
+                <div><b>4.9/5</b><span>Rating</span></div>
+                <div><b>24/7</b><span>Support</span></div>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= EVENTS ================= -->
+
+    <section id="events" class="section">
+
+        <div class="heading">
+
+            <small>CELEBRATE YOUR WAY</small>
+
+            <h2>
+                Choose your <i>event.</i>
+            </h2>
+
+            <p>
+                Select an event category or create your own
+                custom celebration.
+            </p>
+
+        </div>
+
+
+        <div class="event-grid">
+
+            <div class="event-card" onclick="selectEvent('Birthday Party')">
+                <img src="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=800&q=80">
+                <div>
+                    <b>01</b>
+                    <h3>Birthday Party</h3>
+                    <p>Make their special day unforgettable.</p>
+                </div>
+            </div>
+
+            <div class="event-card" onclick="selectEvent('Wedding')">
+                <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80">
+                <div>
+                    <b>02</b>
+                    <h3>Wedding</h3>
+                    <p>Beautiful beginnings, perfectly planned.</p>
+                </div>
+            </div>
+
+            <div class="event-card" onclick="selectEvent('Corporate Party')">
+                <img src="https://images.unsplash.com/photo-1505373877841-8d25f7d46678?auto=format&fit=crop&w=800&q=80">
+                <div>
+                    <b>03</b>
+                    <h3>Corporate Party</h3>
+                    <p>Professional events with great impact.</p>
+                </div>
+            </div>
+
+            <div class="event-card" onclick="selectEvent('Engagement')">
+                <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=80">
+                <div>
+                    <b>04</b>
+                    <h3>Engagement</h3>
+                    <p>Celebrate the beginning of forever.</p>
+                </div>
+            </div>
+
+            <div class="event-card" onclick="selectEvent('Anniversary')">
+                <img src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&w=800&q=80">
+                <div>
+                    <b>05</b>
+                    <h3>Anniversary</h3>
+                    <p>Celebrate every beautiful chapter.</p>
+                </div>
+            </div>
+
+            <div class="event-card" onclick="selectEvent('Baby Shower')">
+                <img src="https://images.unsplash.com/photo-1484820540004-14229fe36ca4?auto=format&fit=crop&w=800&q=80">
+                <div>
+                    <b>06</b>
+                    <h3>Baby Shower</h3>
+                    <p>Welcome the little one with happiness.</p>
+                </div>
+            </div>
+
+            <div class="event-card" onclick="selectEvent('College Event')">
+                <img src="https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?auto=format&fit=crop&w=800&q=80">
+                <div>
+                    <b>07</b>
+                    <h3>College Event</h3>
+                    <p>Freshers, farewell, fest and more.</p>
+                </div>
+            </div>
+
+            <div class="event-card" onclick="selectEvent('Festival Party')">
+                <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=800&q=80">
+                <div>
+                    <b>08</b>
+                    <h3>Festival Party</h3>
+                    <p>Turn every festival into a celebration.</p>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="custom">
+
+            <div>
+                <small>SOMETHING DIFFERENT?</small>
+                <h3>Create Your Own Event</h3>
+                <p>Tell us your idea and we'll help make it happen.</p>
+            </div>
+
+            <button class="main-btn" onclick="selectEvent('Custom Event')">
+                Custom Event →
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= BOOKING ================= -->
+
+    <section id="booking" class="section booking">
+
+        <div class="heading">
+
+            <small>LET'S MAKE IT HAPPEN</small>
+
+            <h2>Book your <i>event.</i></h2>
+
+            <p>Tell us about your celebration.</p>
+
+        </div>
+
+
+        <form id="bookingForm" onsubmit="placeOrder(event)">
+
+            <div class="form-section">
+
+                <h3>01. Customer Information</h3>
+
+                <div class="form-grid">
+
+                    <div>
+                        <label>Name *</label>
+                        <input id="bookName" required placeholder="Full name">
+                    </div>
+
+                    <div>
+                        <label>Mobile *</label>
+                        <input id="bookMobile" type="tel" required placeholder="+91 XXXXX XXXXX">
+                    </div>
+
+                    <div>
+                        <label>Email *</label>
+                        <input id="bookEmail" type="email" required placeholder="you@gmail.com">
+                    </div>
+
+                    <div>
+                        <label>Number of Guests *</label>
+                        <input id="guests" type="number" min="1" required placeholder="100">
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="form-section">
+
+                <h3>02. Event Details</h3>
+
+                <div class="form-grid">
+
+                    <div>
+                        <label>Event Type *</label>
+
+                        <select id="eventType" required>
+
+                            <option value="">Select event</option>
+                            <option>Birthday Party</option>
+                            <option>Wedding</option>
+                            <option>Corporate Party</option>
+                            <option>Engagement</option>
+                            <option>Anniversary</option>
+                            <option>Baby Shower</option>
+                            <option>College Event</option>
+                            <option>Festival Party</option>
+                            <option>Private Party</option>
+                            <option>Custom Event</option>
+
+                        </select>
+                    </div>
+
+
+                    <div>
+                        <label>Event Date *</label>
+                        <input id="eventDate" type="date" required>
+                    </div>
+
+
+                    <div class="full">
+
+                        <label>Event Location *</label>
+
+                        <div class="location">
+
+                            <input id="location" required placeholder="Enter venue or city">
+
+                            <button type="button" onclick="maps()">
+                                MAP
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="full">
+
+                        <label>Additional Requirements</label>
+
+                        <textarea id="requirements" rows="5"
+                        placeholder="Decoration, catering, DJ, photography, theme, special requirements..."></textarea>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- BUDGET -->
+
+            <div class="form-section">
+
+                <h3>03. Select Your Budget</h3>
+
+                <div class="budget">
+
+                    <span>Your estimated budget</span>
+
+                    <strong id="budgetValue">₹50,000</strong>
+
+                </div>
+
+                <input
+                    id="budget"
+                    type="range"
+                    min="5000"
+                    max="100000"
+                    step="5000"
+                    value="50000"
+                    oninput="changeBudget()">
+
+                <div class="range">
+                    <span>₹5,000</span>
+                    <span>₹1,00,000</span>
+                </div>
+
+            </div>
+
+
+            <div class="submit-area">
+
+                <p>🔒 No payment is required at this stage.</p>
+
+                <button class="main-btn" type="submit">
+                    Place Event Request →
+                </button>
+
+            </div>
+
+        </form>
+
+    </section>
+
+
+    <!-- ================= SUCCESS ================= -->
+
+    <section id="success" class="success hide">
+
+        <div class="success-box">
+
+            <div class="success-icon">✓</div>
+
+            <small>REQUEST RECEIVED</small>
+
+            <h1>
+                Your event is<br>
+                <i>officially on its way.</i>
+            </h1>
+
+            <p>
+                Thank you for choosing EventSphere.
+                Our event specialist will contact you shortly.
+            </p>
+
+            <div class="booking-id">
+                <small>BOOKING ID</small>
+                <strong id="orderId">ES-000000</strong>
+            </div>
+
+            <div class="success-info">
+
+                <div>
+                    <small>EVENT</small>
+                    <b id="successEvent">Wedding</b>
+                </div>
+
+                <div>
+                    <small>DATE</small>
+                    <b id="successDate">--</b>
+                </div>
+
+                <div>
+                    <small>BUDGET</small>
+                    <b id="successBudget">₹50,000</b>
+                </div>
+
+            </div>
+
+            <h3>We'll catch you on time. ✦</h3>
+
+            <button class="main-btn" onclick="goHome()">
+                Back to EventSphere
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= ABOUT ================= -->
+
+    <section id="about" class="about section">
+
+        <div class="about-img">
+            <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=1200&q=80">
+        </div>
+
+        <div class="about-text">
+
+            <small>ABOUT EVENTSPHERE</small>
+
+            <h2>
+                We create events.<br>
+                <i>We create memories.</i>
+            </h2>
+
+            <p>
+                EventSphere is a modern event management platform
+                created to make planning celebrations easier,
+                smarter and more personal.
+            </p>
+
+            <p>
+                From weddings and birthdays to corporate events,
+                college functions and private celebrations,
+                EventSphere connects your ideas with professional
+                event planning.
+            </p>
+
+            <div class="about-points">
+                <p>✦ Personalized event planning</p>
+                <p>✦ Budget-friendly packages</p>
+                <p>✦ Professional event support</p>
+                <p>✦ Complete event management</p>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer>
+
+        <div class="footer-logo">
+            ✦ Event<span>Sphere</span>
+        </div>
+
+        <p>
+            Making every celebration worth remembering.
+        </p>
+
+        <div class="footer-links">
+            <button onclick="goHome()">Home</button>
+            <button onclick="showEvents()">Events</button>
+            <button onclick="showBooking()">Book Event</button>
+            <button onclick="showAbout()">About</button>
+        </div>
+
+        <hr>
+
+        <small>
+            © 2026 EventSphere. All Rights Reserved.
+        </small>
+
+    </footer>
+
+</div>
+
+
+<!-- ================= ACCOUNT MODAL ================= -->
+
+<div id="accountModal" class="modal">
+
+    <div class="modal-box">
+
+        <button class="close" onclick="closeModal('accountModal')">×</button>
+
+        <small>MY ACCOUNT</small>
+
+        <h2>Your Profile</h2>
+
+        <label>Name</label>
+        <input id="accountName">
+
+        <label>Email</label>
+        <input id="accountEmail">
+
+        <label>Mobile</label>
+        <input id="accountMobile">
+
+        <button class="main-btn" onclick="saveAccount()">
+            Save Changes
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- ================= SETTINGS MODAL ================= -->
+
+<div id="settingsModal" class="modal">
+
+    <div class="modal-box">
+
+        <button class="close" onclick="closeModal('settingsModal')">×</button>
+
+        <small>SETTINGS</small>
+
+        <h2>Settings</h2>
+
+        <div class="setting">
+            <span>Notifications</span>
+            <input type="checkbox" checked>
+        </div>
+
+        <div class="setting">
+            <span>Marketing Updates</span>
+            <input type="checkbox">
+        </div>
+
+        <div class="setting">
+            <span>Dark Mode</span>
+            <input type="checkbox" checked>
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ================= BOOKINGS MODAL ================= -->
+
+<div id="bookingsModal" class="modal">
+
+    <div class="modal-box large">
+
+        <button class="close" onclick="closeModal('bookingsModal')">×</button>
+
+        <small>MY BOOKINGS</small>
+
+        <h2>My Event Requests</h2>
+
+        <div id="bookingsList"></div>
+
+    </div>
+
+</div>
+
+
+<!-- TOAST -->
+
+<div id="toast"></div>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
+```
